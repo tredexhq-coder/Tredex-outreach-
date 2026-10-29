@@ -96,7 +96,95 @@
     .vtag{display:inline-block;margin-left:3px;padding:1px 4px;border-radius:3px;font-size:.65rem;font-weight:700;background:#334155;color:var(--text);}
     .vtag.predicted{opacity:.55;}
     .footer{text-align:center;margin-top:14px;padding:10px;color:var(--muted);font-size:.72rem;}
-    @media(max-width:480px){.card{padding:11px;}table{font-size:.72rem;}th,td{padding:5px 4px;}.btn-group{flex-direction:column;}.btn-group .btn{justify-content:center;}h1{font-size:1.5rem;}}
+    /* Dashboard layout */
+    :root{--bg:#080d15;--card:#151c26;--border:#36404d;--primary:#ff7918;--primary-hover:#ff9b35;--success:#45d597;--radius:9px;--shadow:0 12px 30px rgba(0,0,0,.24);}
+    body{background:radial-gradient(ellipse at 50% -30%,#1b2431 0%,var(--bg) 58%);padding:20px 20px calc(20px + var(--safe-bottom));}
+    .container{max-width:1120px;}
+    .header{display:flex;align-items:center;justify-content:space-between;gap:24px;text-align:left;margin-bottom:16px;padding:12px 4px;background:transparent;border:0;border-radius:0;}
+    .brand{display:flex;align-items:center;gap:14px;min-width:0;}
+    .logo{width:64px;height:64px;object-fit:contain;margin:0;filter:drop-shadow(0 0 14px rgba(255,121,24,.24));}
+    h1{font-size:1.8rem;letter-spacing:2px;color:#ff9b35;}
+    .subtitle{font-size:.8rem;}
+    .header-meta{text-align:right;color:var(--muted);font-size:.78rem;}
+    .header-stats{display:flex;justify-content:flex-end;gap:0;margin-top:5px;}
+    .header-stat{min-width:76px;padding:0 12px;border-left:1px solid var(--border);text-align:center;line-height:1.2;}
+    .header-stat strong{display:block;color:var(--text);font-size:.95rem;font-weight:700;}
+    .header-stat.sent strong{color:#ffb36a;}
+    .header-stat.remaining strong{color:var(--success);}
+    .header-stat small{color:var(--muted);font-size:.68rem;}
+    .note{border:1px solid #5b4534;border-left:3px solid var(--primary);border-radius:8px;background:#1a1d22;}
+    .card{padding:18px;border:1px solid var(--border);border-radius:var(--radius);border-left:1px solid var(--border);background:linear-gradient(145deg,rgba(26,34,45,.96),rgba(17,24,34,.98));}
+    h2{color:#e4e9ef;font-size:1.05rem;font-weight:600;letter-spacing:.01em;}
+    .card h2{justify-content:space-between;}
+    .card h2 .step-title{display:flex;align-items:center;gap:8px;}
+    .section-dots{color:#8f9aa8;letter-spacing:2px;font-size:.9rem;}
+    .recipient-layout{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(270px,1fr);gap:14px;align-items:stretch;}
+    .recipient-tools{min-width:0;}
+    .drop-zone{min-height:145px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:16px;border-color:#536071;background:#111720;color:#d4dbe3;}
+    .drop-zone::before{content:"⇧";font-size:1.5rem;color:#c5ced8;}
+    .stats{gap:10px;margin:0;align-items:stretch;}
+    .stat-box{display:flex;flex-direction:column;justify-content:center;min-width:0;padding:16px 10px;background:linear-gradient(180deg,#1d2733,#131a23);border-color:#3b4652;border-radius:8px;}
+    .stat-box span{font-size:1.55rem;color:#e5edf5;}
+    .stat-box:nth-child(2) span{color:#ffb36a;}
+    .stat-box:nth-child(3) span{color:var(--success);}
+    .stat-box small{font-size:.72rem;}
+    .recipient-actions{margin-top:12px;}
+    .btn{border-radius:7px;}
+    .btn-primary{background:linear-gradient(100deg,#ff941b,#ff541b);color:#14100d;}
+    .btn-secondary{background:#303a47;color:#e4e9ef;}
+    input[type="text"],input[type="number"],input[type="file"],textarea,select{background:#101720;border-color:#414c59;}
+    .variant-bar{gap:7px;}
+    .vtab{background:#222a34;border-color:#3d4856;border-radius:20px;}
+    .vtab.active{background:#50311f;border-color:#985323;color:#ffd2a3;}
+    .vtab.active small{color:#ffd2a3;}
+    .compose-focus{border-color:#ad642e!important;box-shadow:0 0 0 1px rgba(255,121,24,.13),0 0 20px rgba(255,121,24,.08);}
+    .campaign-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(240px,.75fr);gap:16px;align-items:center;}
+    .campaign-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+    .campaign-controls .btn{flex:1;justify-content:center;}
+    .campaign-controls #delaySec{width:100%;margin:0;}
+    .campaign-delay{flex:1 1 100%;min-width:170px;}
+    #sendBtn{min-height:82px;font-size:1.6rem;font-weight:800;letter-spacing:.02em;box-shadow:0 0 0 3px rgba(255,121,24,.17),0 0 22px rgba(255,121,24,.28);}
+    .campaign-subtitle{display:block;font-size:.75rem;font-weight:600;letter-spacing:0;margin-top:-3px;}
+    .campaign-side .btn{min-width:100px;}
+    .pipeline-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:2px 0 12px;border-bottom:1px solid var(--border);}
+    .pipeline-tab{padding:10px 8px;border:0;border-bottom:2px solid transparent;background:transparent;color:#aab4c0;cursor:pointer;font:inherit;font-size:.78rem;font-weight:700;text-align:center;letter-spacing:.025em;}
+    .pipeline-tab:hover{color:var(--text);}
+    .pipeline-tab[aria-selected="true"]{color:var(--success);border-bottom-color:var(--success);}
+    .pipeline-tab[data-view="pending"][aria-selected="true"]{color:#ffad72;border-bottom-color:#ffad72;}
+    .pipeline-tab[data-view="flow"][aria-selected="true"]{color:#74c9f3;border-bottom-color:#74c9f3;}
+    .pipeline-summary{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;color:var(--muted);font-size:.76rem;}
+    .pipeline-summary strong{color:var(--text);font-size:.88rem;}
+    .pipeline-list{display:grid;gap:6px;max-height:300px;overflow:auto;}
+    .pipeline-row{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0;padding:9px 11px;border:1px solid #4d3a2b;border-radius:7px;background:linear-gradient(90deg,rgba(93,49,22,.58),rgba(35,34,34,.75));color:#e9e2dc;font-size:.82rem;}
+    .pipeline-row.opened{border-color:#28664f;background:linear-gradient(90deg,rgba(20,99,69,.55),rgba(24,43,39,.8));}
+    .pipeline-row-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .pipeline-badge{flex:none;padding:2px 7px;border:1px solid currentColor;border-radius:5px;color:#ffc18e;font-size:.67rem;font-weight:700;}
+    .pipeline-row.opened .pipeline-badge{color:#70e1ac;}
+    .pipeline-empty{padding:22px 10px;border:1px dashed #46515e;border-radius:7px;color:var(--muted);text-align:center;font-size:.82rem;}
+    .flow-grid{display:grid;grid-template-columns:minmax(0,1fr) 44px minmax(0,1fr);gap:8px;align-items:center;}
+    .flow-column-title{margin-bottom:7px;color:var(--muted);font-size:.7rem;font-weight:700;letter-spacing:.04em;}
+    .flow-items{display:grid;gap:6px;min-width:0;}
+    .flow-item{overflow:hidden;padding:8px 9px;border:1px solid #4d3a2b;border-radius:6px;background:#34251d;color:#e9e2dc;font-size:.75rem;text-overflow:ellipsis;white-space:nowrap;}
+    .flow-item.opened{border-color:#28664f;background:#143a2f;}
+    .flow-arrows{display:grid;gap:6px;color:#55b6df;font-size:1.15rem;text-align:center;}
+    .flow-arrows span{animation:flowPulse 1.5s ease-in-out infinite;}
+    @keyframes flowPulse{50%{opacity:.42;transform:translateX(3px);}}
+    .pipeline-disclaimer{margin-top:10px;color:var(--muted);font-size:.7rem;}
+    .pipeline-row-actions{display:flex;flex:none;gap:5px;align-items:center;}
+    .pipeline-action{min-height:32px;padding:4px 7px;border:1px solid #596575;border-radius:5px;background:#303a47;color:#e4e9ef;font-size:.68rem;cursor:pointer;}
+    .pipeline-action.confirmed{border-color:#287c5b;background:#143a2f;color:#70e1ac;}
+    .recipient-pagination{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px;color:var(--muted);font-size:.75rem;}
+    .recipient-pagination .btn{min-height:34px;}
+    .campaign-settings{display:flex;gap:10px;align-items:flex-end;margin-bottom:12px;}
+    .campaign-settings .setting{flex:1;min-width:120px;}
+    .campaign-settings input{margin:0;}
+    .campaign-settings .setting-help{display:block;color:var(--muted);font-size:.67rem;margin-top:3px;}
+    .shortcut-hint{margin-top:7px;color:var(--muted);font-size:.68rem;}
+    .shortcut-hint kbd{padding:1px 5px;border:1px solid #46515e;border-radius:4px;background:#101720;color:#d4dbe3;}
+    .hidden{display:none!important;}
+    .tbl-wrap,.review-wrap{border-color:#3b4652;}
+    @media(max-width:700px){body{padding-left:12px;padding-right:12px;}.recipient-layout{grid-template-columns:1fr;}.campaign-layout{grid-template-columns:1fr;}.header{align-items:flex-start;}.header-meta{max-width:48%;}}
+    @media(max-width:480px){.card{padding:12px;}table{font-size:.72rem;}th,td{padding:5px 4px;}.btn-group{flex-direction:column;}.btn-group .btn{justify-content:center;}h1{font-size:1.45rem;}.header{gap:8px;padding:8px 0;}.brand{gap:8px;}.logo{width:48px;height:48px;}.header-meta{font-size:.65rem;}.header-stat{min-width:55px;padding:0 5px;}.header-stat strong{font-size:.82rem;}.header-stats{gap:0;}#sendBtn{min-height:68px;font-size:1.25rem;}.pipeline-tab{font-size:.66rem;padding:9px 3px;}.flow-grid{grid-template-columns:minmax(0,1fr) 25px minmax(0,1fr);gap:4px;}.flow-item{padding:7px 5px;font-size:.68rem;}}
   </style>
 </head>
 <body>
@@ -112,44 +200,55 @@
   </div>
 
   <div class="header">
-    <svg class="logo" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-      <defs><linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f97316"/><stop offset="100%" stop-color="#ea580c"/></linearGradient></defs>
-      <path d="M30 25 L120 25 Q140 25 150 35 L150 45 Q140 35 120 35 L70 35 L70 115 L120 115 Q140 115 140 95 L140 75 Q140 65 130 65 L110 65 L110 85 L90 85 L90 55 L130 55 Q160 55 160 95 L160 95 Q160 135 120 135 L50 135 L50 25 Z" fill="url(#grad)"/>
-      <path d="M145 25 L170 25 L170 135 L150 135 Z" fill="url(#grad)"/>
-      <path d="M120 35 L170 115 L155 125 L105 45 Z" fill="url(#grad)"/>
-    </svg>
-    <h1>TREDEX <span class="offline-badge">Offline</span></h1>
-    <p class="subtitle">100% Local · Zero APIs · Opens Gmail / Mail App</p>
+    <div class="brand">
+      <img class="logo" src="20261006_172013.png" alt="TREDEX logo">
+      <div>
+        <h1>TREDEX <span class="offline-badge">Offline</span></h1>
+        <p class="subtitle">Outreach campaign workspace</p>
+      </div>
+    </div>
+    <div class="header-meta">
+      100% Local · Zero APIs · Email Campaigner
+      <div class="header-stats" aria-label="Campaign totals">
+        <div class="header-stat"><strong id="headerTotal">0</strong><small>Total</small></div>
+        <div class="header-stat sent"><strong id="headerSent">0</strong><small>Opened</small></div>
+        <div class="header-stat remaining"><strong id="headerRemaining">0</strong><small>Remaining</small></div>
+      </div>
+    </div>
   </div>
 
-  <div class="note">📱 <strong>Android Workflow:</strong> Tap <strong>Start</strong> — each contact opens a pre-filled Gmail draft. Hit <strong>Send</strong> in Gmail, then come back. Progress is saved locally on your device.</div>
+  <div class="note">📱 <strong>Android Workflow:</strong> Start the campaign to open each pre-filled mail draft. Send it in your mail app, then mark it sent in the Sent Status tab. Progress is saved locally on your device.</div>
 
   <!-- 1. Recipients -->
   <div class="card">
-    <h2>📋 1. Add Recipients</h2>
-    <div class="btn-group" style="margin-bottom:10px;">
-      <button class="btn btn-secondary" onclick="togglePaste()">✏️ Paste List</button>
+    <h2><span class="step-title">1. Add Recipients</span><span class="section-dots">•••</span></h2>
+    <div class="recipient-layout">
+      <div class="recipient-tools">
+        <div class="btn-group" style="margin:0 0 10px;">
+          <button class="btn btn-secondary btn-sm" onclick="togglePaste()">✏️ Paste List</button>
+        </div>
+        <div id="pasteArea" class="hidden">
+          <label>Format: <code>email, store_url, store_name, niche</code></label>
+          <textarea id="rawRecipients" placeholder="alice@shop.com, https://alice.com, Alice Boutique, Fashion&#10;bob@shop.com, https://bob.com, Bob Store, Home" style="font-size:.85rem;"></textarea>
+          <button class="btn btn-primary" style="width:100%;" onclick="parseRawText()">➕ Open in Review</button>
+        </div>
+        <div id="dropZone" class="drop-zone">
+          <span>Import CSV / TXT</span>
+          <small style="color:var(--muted);">Drag and drop, or tap to browse</small>
+          <input type="file" class="file-input" id="csvFile" accept=".csv,.txt">
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat-box"><span id="totalCount">0</span><small>Total</small></div>
+        <div class="stat-box"><span id="alreadySent">0</span><small>Opened</small></div>
+        <div class="stat-box"><span id="remainCount">0</span><small>Remaining</small></div>
+      </div>
     </div>
-    <div id="pasteArea" class="hidden">
-      <label>Format: <code>email, store_url, store_name, niche</code></label>
-      <textarea id="rawRecipients" placeholder="alice@shop.com, https://alice.com, Alice Boutique, Fashion&#10;bob@shop.com, https://bob.com, Bob Store, Home" style="font-size:.85rem;"></textarea>
-      <button class="btn btn-primary" style="width:100%;" onclick="parseRawText()">➕ Open in Review</button>
-    </div>
-    <div id="dropZone" class="drop-zone">
-      📂 Tap to import CSV / TXT<br>
-      <small style="color:var(--muted);">Columns: email, store_url, store_name, niche</small>
-      <input type="file" class="file-input" id="csvFile" accept=".csv,.txt">
-    </div>
-    <div class="stats">
-      <div class="stat-box"><span id="totalCount">0</span><small>Total</small></div>
-      <div class="stat-box"><span id="alreadySent">0</span><small>Sent</small></div>
-      <div class="stat-box"><span id="remainCount">0</span><small>Remaining</small></div>
-    </div>
-    <div class="btn-group" style="margin-top:10px;">
-      <button class="btn btn-danger" onclick="clearRecipients()">🗑 Clear List</button>
-      <button class="btn btn-warn" onclick="clearSentHistory()">🧹 Clear Memory</button>
-      <button class="btn btn-secondary" onclick="exportState()">📤 Export</button>
-      <label class="btn btn-secondary" style="cursor:pointer;">📥 Import<input type="file" class="file-input" id="importFile" accept=".json"></label>
+    <div class="btn-group recipient-actions">
+      <button class="btn btn-danger btn-sm" onclick="clearRecipients()">🗑 Clear List</button>
+      <button class="btn btn-warn btn-sm" onclick="clearSentHistory()">🧹 Clear Memory</button>
+      <button class="btn btn-secondary btn-sm" onclick="exportState()">📤 Export</button>
+      <label class="btn btn-secondary btn-sm" style="cursor:pointer;">📥 Import<input type="file" class="file-input" id="importFile" accept=".json"></label>
     </div>
   </div>
 
@@ -168,7 +267,7 @@
 
   <!-- 2. Compose -->
   <div class="card">
-    <h2>✍️ 2. Compose Email</h2>
+    <h2><span class="step-title">2. Compose Email</span><span class="section-dots">•••</span></h2>
     <label>📑 Content Variants</label>
     <div class="variant-bar" id="variantBar"></div>
     <div style="display:flex;gap:6px;margin-bottom:6px;align-items:stretch;">
@@ -188,9 +287,9 @@
       <button class="btn btn-danger btn-sm" onclick="deleteTemplate()">🗑</button>
     </div>
     <label>Subject Line</label>
-    <input type="text" id="subject" placeholder="Quick question about {{store_name}}" autocomplete="off" autocorrect="off">
+    <input class="compose-focus" type="text" id="subject" placeholder="Quick question about {{store_name}}" autocomplete="off" autocorrect="off">
     <label>Email Body</label>
-    <textarea id="body" placeholder="Hi {{store_name}},&#10;&#10;I noticed your {{store_niche}} store at {{store_url}}...&#10;&#10;Best,"></textarea>
+    <textarea class="compose-focus" id="body" placeholder="Hi {{store_name}},&#10;&#10;I noticed your {{store_niche}} store at {{store_url}}...&#10;&#10;Best,"></textarea>
     <p style="color:var(--muted);font-size:.72rem;margin-top:-6px;margin-bottom:10px;">Placeholders: <code>{{store_name}}</code> <code>{{store_url}}</code> <code>{{store_niche}}</code> <code>{{email}}</code></p>
     <label>Preview With</label>
     <select id="recipientSelector" onchange="updatePreview()" style="margin-bottom:8px;"><option value="-1">-- Add recipients first --</option></select>
@@ -206,20 +305,31 @@
 
   <!-- 3. Campaign -->
   <div class="card">
-    <h2>🚀 3. Send Campaign</h2>
+    <h2><span class="step-title">3. Send Campaign</span><span class="section-dots">•••</span></h2>
     <div class="mode-toggle">
       <label><input type="radio" name="sendMode" value="auto" checked onchange="toggleMode()"> 🤖 Auto (Sequential)</label>
       <label><input type="radio" name="sendMode" value="manual" onchange="toggleMode()"> 👆 Manual (Pick Rows)</label>
     </div>
-    <div id="autoControls">
-      <label>Delay between opens (seconds)</label>
-      <input type="number" id="delaySec" value="2" min="1" max="15">
+    <div class="campaign-settings">
+      <div class="setting">
+        <label for="runLimit">Maximum drafts per run</label>
+        <input type="number" id="runLimit" value="25" min="1" max="500">
+        <small class="setting-help">Pause automatically at the limit; resume when ready.</small>
+      </div>
     </div>
-    <div class="btn-group">
-      <button class="btn btn-primary" id="sendBtn" onclick="startCampaign()">🚀 Start</button>
-      <button class="btn btn-warn" id="pauseBtn" onclick="pauseCampaign()" disabled>⏸ Pause</button>
-      <button class="btn btn-danger" id="stopBtn" onclick="stopCampaign()" disabled>⏹ Stop</button>
+    <div class="campaign-layout">
+      <button class="btn btn-primary" id="sendBtn" onclick="startCampaign()">▶ SEND CAMPAIGN<span class="campaign-subtitle">ON-CLICK DRAFT OPENING ACTIVE</span></button>
+      <div class="campaign-side">
+        <div class="campaign-controls">
+          <button class="btn btn-secondary" id="pauseBtn" onclick="pauseCampaign()" disabled>⏸ Pause</button>
+          <button class="btn btn-secondary" id="stopBtn" onclick="stopCampaign()" disabled>■ Stop</button>
+          <div class="campaign-delay"><label>Delay between opens (seconds)</label>
+            <input type="number" id="delaySec" value="2" min="1" max="15">
+          </div>
+        </div>
+      </div>
     </div>
+    <p class="shortcut-hint">Shortcut: <kbd>Alt</kbd> + <kbd>↓</kbd> opens the next pending draft when you are not typing in a field.</p>
     <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
     <div class="stats">
       <div class="stat-box"><span id="sentCount">0</span><small>Opened</small></div>
@@ -227,9 +337,36 @@
     </div>
   </div>
 
+  <!-- 4. Live pipeline -->
+  <div class="card" id="livePipeline">
+    <h2><span class="step-title">4. Live Pipeline <span style="color:var(--muted);font-weight:400;">(Pending → Opened)</span></span><span class="section-dots">•••</span></h2>
+    <div class="pipeline-tabs" id="pipelineTabs" role="tablist" aria-label="Live pipeline views">
+      <button class="pipeline-tab" id="pipelineTabPending" role="tab" aria-selected="true" aria-controls="pipelinePending" data-view="pending" onclick="selectPipelineView('pending')">PENDING QUEUE</button>
+      <button class="pipeline-tab" id="pipelineTabFlow" role="tab" aria-selected="false" aria-controls="pipelineFlow" data-view="flow" onclick="selectPipelineView('flow')">MOTION / FLOW VISUAL</button>
+      <button class="pipeline-tab" id="pipelineTabOpened" role="tab" aria-selected="false" aria-controls="pipelineOpened" data-view="opened" onclick="selectPipelineView('opened')">SENT STATUS</button>
+    </div>
+    <section class="pipeline-view" id="pipelinePending" role="tabpanel" aria-labelledby="pipelineTabPending">
+      <div class="pipeline-summary"><strong id="pendingSummary">0 waiting</strong><span>Up next</span></div>
+      <div class="pipeline-list" id="pendingPipelineList"></div>
+    </section>
+    <section class="pipeline-view hidden" id="pipelineFlow" role="tabpanel" aria-labelledby="pipelineTabFlow">
+      <div class="pipeline-summary"><strong>Automatic migration on click</strong><span id="flowSummary">0 opened · 0 waiting</span></div>
+      <div class="flow-grid">
+        <div><div class="flow-column-title">PENDING QUEUE</div><div class="flow-items" id="flowPendingList"></div></div>
+        <div class="flow-arrows" aria-hidden="true" id="flowArrows"></div>
+        <div><div class="flow-column-title">DRAFT OPENED</div><div class="flow-items" id="flowOpenedList"></div></div>
+      </div>
+    </section>
+    <section class="pipeline-view hidden" id="pipelineOpened" role="tabpanel" aria-labelledby="pipelineTabOpened">
+      <div class="pipeline-summary"><strong id="openedSummary">0 drafts opened</strong><span id="sentSummary">0 confirmed sent</span></div>
+      <div class="pipeline-list" id="openedPipelineList"></div>
+    </section>
+    <p class="pipeline-disclaimer">TREDEX hands off a pre-filled draft to your mail app. Mark it sent only after sending; delivery is not verified.</p>
+  </div>
+
   <!-- Table -->
   <div class="card">
-    <h2>📊 Recipients</h2>
+    <h2><span class="step-title">Recipients</span><span class="section-dots">•••</span></h2>
     <div class="filter-row">
       <input type="text" id="filterEmail" placeholder="🔍 Email..." oninput="applyFilters()" style="margin-bottom:0;">
       <input type="text" id="filterName" placeholder="🔍 Name..." oninput="applyFilters()" style="margin-bottom:0;">
@@ -246,6 +383,13 @@
         <tbody id="recipientTable"></tbody>
       </table>
     </div>
+    <div class="recipient-pagination">
+      <span id="recipientPageSummary">0 recipients</span>
+      <div class="btn-group" style="margin:0;">
+        <button class="btn btn-secondary btn-sm" id="prevPageBtn" onclick="changeRecipientPage(-1)" disabled>← Previous</button>
+        <button class="btn btn-secondary btn-sm" id="nextPageBtn" onclick="changeRecipientPage(1)" disabled>Next →</button>
+      </div>
+    </div>
   </div>
 
   <div class="footer">© 2026 TREDEX Digital Marketing · Data stored locally · <code>mailto:</code> protocol</div>
@@ -256,7 +400,7 @@
 <script>
 // SERVICE WORKER
 if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('./sw.js').catch(e=>console.warn('SW:',e));
+  navigator.serviceWorker.register('./sw-1.js').catch(e=>console.warn('SW:',e));
 }
 
 // OFFLINE
@@ -291,7 +435,7 @@ window.addEventListener('appinstalled',()=>{
 
 // STATE
 const KEY='tredex_local_v1';
-let state={recipients:[],sentEmails:[],queueIndex:0,variants:[{s:'',b:''}],activeVariant:0,rotation:'sequential',assigned:{},delay:2,mode:'auto',templates:{},lastSaved:null};
+let state={recipients:[],sentEmails:[],confirmedSentEmails:[],queueIndex:0,variants:[{s:'',b:''}],activeVariant:0,rotation:'sequential',assigned:{},delay:2,runLimit:25,mode:'auto',campaignStatus:'stopped',templates:{},lastSaved:null};
 let isRunning=false,isPaused=false,timerId=null;
 let sessionStats={sent:0,skipped:0};
 
@@ -304,27 +448,44 @@ function load(){
     fillEditor();
     document.getElementById('rotationMode').value=state.rotation;
     document.getElementById('delaySec').value=state.delay||2;
+    document.getElementById('runLimit').value=state.runLimit||25;
     const m=document.querySelector(`input[name="sendMode"][value="${state.mode}"]`);
     if(m)m.checked=true;
-    renderTable();updateStats();updatePreview();updateTemplates();renderVariantBar();
+    if(state.campaignStatus==='running')state.campaignStatus='paused';
+    applyFilters();updatePreview();updateTemplates();renderVariantBar();
   }catch(e){console.error('Load failed',e);}
 }
 // Upgrade older saves/exports that only had a single subject/body
 function normalize(p){
   p={...p};
+  p.recipients=Array.isArray(p.recipients)?p.recipients:[];
+  p.sentEmails=Array.isArray(p.sentEmails)?p.sentEmails:[];
+  p.assigned=p.assigned&&typeof p.assigned==='object'?p.assigned:{};
+  p.templates=p.templates&&typeof p.templates==='object'?p.templates:{};
   if(!Array.isArray(p.variants)||!p.variants.length){
     if(p.subject!==undefined||p.body!==undefined)p.variants=[{s:p.subject||'',b:p.body||''}];
     else delete p.variants;
   }
   delete p.subject;delete p.body;
   if(p.variants&&!(p.activeVariant<p.variants.length))p.activeVariant=0;
+  if(!Array.isArray(p.confirmedSentEmails))p.confirmedSentEmails=[];
+  if(Array.isArray(p.sentEmails)){
+    const opened=new Set(p.sentEmails);
+    p.confirmedSentEmails.forEach(email=>opened.add(email));
+    p.sentEmails=[...opened];
+  }
+  if(Array.isArray(p.variants))p.variants=p.variants.map(v=>({s:v?.s||'',b:v?.b||''}));
+  if(!['running','paused','stopped','completed'].includes(p.campaignStatus))p.campaignStatus='stopped';
+  p.delay=Math.min(15,Math.max(1,parseInt(p.delay)||2));
+  p.runLimit=Math.min(500,Math.max(1,parseInt(p.runLimit)||25));
+  p.queueIndex=Math.max(0,Math.min(Number(p.queueIndex)||0,(p.recipients||[]).length));
   return p;
 }
 
 // FILE IMPORT
 const dropZone=document.getElementById('dropZone');
 const csvInput=document.getElementById('csvFile');
-dropZone.addEventListener('click',()=>csvInput.click());
+dropZone.addEventListener('click',e=>{if(e.target!==csvInput)csvInput.click();});
 dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.add('dragover');});
 dropZone.addEventListener('dragleave',()=>dropZone.classList.remove('dragover'));
 dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.classList.remove('dragover');if(e.dataTransfer.files[0])handleFile(e.dataTransfer.files[0]);});
@@ -362,19 +523,21 @@ function parseRawText(){
 function addRecipients(arr){
   const ex=new Set(state.recipients.map(r=>r.email));let added=0;
   arr.forEach(r=>{if(!ex.has(r.email)){state.recipients.push(r);ex.add(r.email);added++;}});
-  renderTable();updateStats();updatePreview();updateSelector();save();
+  applyFilters();updateStats();updatePreview();updateSelector();save();
   if(added)toast(`✅ Added ${added} recipient${added>1?'s':''}`);
 }
 function deleteRow(idx){
   if(!confirm('Delete this recipient?'))return;
+  if(isRunning)stopCampaign('stopped');
   const rem=state.recipients.splice(idx,1)[0];
   state.sentEmails=state.sentEmails.filter(e=>e!==rem.email);
+  state.confirmedSentEmails=state.confirmedSentEmails.filter(e=>e!==rem.email);
   delete state.assigned[rem.email];
   if(state.queueIndex>idx)state.queueIndex--;
-  renderTable();updateStats();updatePreview();updateSelector();save();toast('🗑 Deleted');
+  applyFilters();updatePreview();updateSelector();save();toast('🗑 Deleted');
 }
-function clearRecipients(){if(!confirm('Clear all?'))return;state.recipients=[];state.queueIndex=0;state.assigned={};renderTable();updateStats();updatePreview();updateSelector();save();toast('🗑 Cleared');}
-function clearSentHistory(){if(!confirm('Clear sent memory?'))return;state.sentEmails=[];state.queueIndex=0;state.assigned={};renderTable();updateStats();renderVariantBar();save();toast('🧹 Memory cleared');}
+function clearRecipients(){if(!confirm('Clear all?'))return;if(isRunning)stopCampaign('stopped');state.recipients=[];state.sentEmails=[];state.confirmedSentEmails=[];state.queueIndex=0;state.assigned={};state.campaignStatus='stopped';applyFilters();updateStats();updatePreview();updateSelector();save();updateCampaignControls();toast('🗑 Cleared');}
+function clearSentHistory(){if(!confirm('Clear draft-opened and sent memory?'))return;if(isRunning)stopCampaign('stopped');state.sentEmails=[];state.confirmedSentEmails=[];state.queueIndex=0;state.assigned={};state.campaignStatus='stopped';applyFilters();updateStats();updateSelector();updatePreview();renderVariantBar();save();updateCampaignControls();toast('🧹 Memory cleared');}
 
 // FILTER & RENDER
 let filtered=[];
@@ -383,28 +546,149 @@ function applyFilters(){
   const nq=document.getElementById('filterName').value.toLowerCase();
   const sk=document.getElementById('sortSelect').value;
   filtered=state.recipients.map((r,i)=>({...r,idx:i}))
-    .filter(r=>r.email.includes(eq)&&(r.store_name+' '+r.store_niche).toLowerCase().includes(nq))
+    .filter(r=>String(r.email||'').toLowerCase().includes(eq)&&(String(r.store_name||'')+' '+String(r.store_niche||'')).toLowerCase().includes(nq))
     .sort((a,b)=>{
       let va=sk==='index'?a.idx:(sk==='status'?(state.sentEmails.includes(a.email)?1:0):a[sk==='name'?'store_name':'store_niche']);
       let vb=sk==='index'?b.idx:(sk==='status'?(state.sentEmails.includes(b.email)?1:0):b[sk==='name'?'store_name':'store_niche']);
       if(typeof va==='string')va=va.toLowerCase();if(typeof vb==='string')vb=vb.toLowerCase();
       return va<vb?-1:(va>vb?1:0);
     }).map(r=>r.idx);
-  renderTable();updateStats();
+  currentPage=0;renderTable();updateStats();
+}
+const RECIPIENTS_PER_PAGE=50;
+let currentPage=0;
+function changeRecipientPage(direction){
+  const pageCount=Math.max(1,Math.ceil(filtered.length/RECIPIENTS_PER_PAGE));
+  currentPage=Math.max(0,Math.min(pageCount-1,currentPage+direction));
+  renderTable();
 }
 function renderTable(){
   const tb=document.getElementById('recipientTable');tb.innerHTML='';
-  if(!filtered.length)filtered=state.recipients.map((_,i)=>i);
-  const lim=Math.min(filtered.length,150);
-  for(let i=0;i<lim;i++){
-    const idx=filtered[i],r=state.recipients[idx];if(!r)continue;
+  const start=currentPage*RECIPIENTS_PER_PAGE;
+  const pageRows=filtered.slice(start,start+RECIPIENTS_PER_PAGE);
+  for(const idx of pageRows){
+    const r=state.recipients[idx];if(!r)continue;
     const isSent=state.sentEmails.includes(r.email);
     const tag=(isSent?'<span class="tag tag-sent">✅</span>':'<span class="tag tag-pending">⏳</span>')+variantTag(idx,isSent);
     const tr=document.createElement('tr');
     tr.innerHTML=`<td>${idx+1}</td><td>${tag}</td><td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r.email}</td><td>${r.store_name}</td><td><button class="row-btn" ${isSent?'disabled':''} onclick="openDraft(${idx})">📧</button><button class="row-btn del" onclick="deleteRow(${idx})">🗑</button></td>`;
     tb.appendChild(tr);
   }
-  if(filtered.length>150){const tr=document.createElement('tr');tr.innerHTML=`<td colspan="5" style="text-align:center;color:var(--muted);padding:8px;">Showing 150/${filtered.length}. Use filter.</td>`;tb.appendChild(tr);}
+  const pageCount=Math.max(1,Math.ceil(filtered.length/RECIPIENTS_PER_PAGE));
+  document.getElementById('recipientPageSummary').textContent=filtered.length
+    ?`Showing ${start+1}–${Math.min(start+RECIPIENTS_PER_PAGE,filtered.length)} of ${filtered.length} recipients`
+    :'No recipients match this filter.';
+  document.getElementById('prevPageBtn').disabled=currentPage===0;
+  document.getElementById('nextPageBtn').disabled=currentPage>=pageCount-1;
+}
+
+function selectPipelineView(view){
+  const views={pending:'pipelinePending',flow:'pipelineFlow',opened:'pipelineOpened'};
+  if(!views[view])return;
+  document.querySelectorAll('.pipeline-tab').forEach(tab=>{
+    const selected=tab.dataset.view===view;
+    tab.setAttribute('aria-selected',String(selected));
+    tab.tabIndex=selected?0:-1;
+  });
+  Object.entries(views).forEach(([key,id])=>{
+    document.getElementById(id).classList.toggle('hidden',key!==view);
+  });
+}
+document.getElementById('pipelineTabs').addEventListener('keydown',e=>{
+  const tabs=[...document.querySelectorAll('.pipeline-tab')];
+  const current=tabs.indexOf(document.activeElement);
+  if(current<0)return;
+  const direction=e.key==='ArrowRight'?1:(e.key==='ArrowLeft'?-1:0);
+  if(!direction)return;
+  e.preventDefault();
+  const next=tabs[(current+direction+tabs.length)%tabs.length];
+  next.focus();
+  next.click();
+});
+function addPipelineRow(container,recipient,opened,index){
+  const row=document.createElement('div');
+  row.className='pipeline-row'+(opened?' opened':'');
+  const name=document.createElement('span');
+  name.className='pipeline-row-name';
+  name.textContent=recipient.store_name||recipient.email;
+  const actions=document.createElement('span');
+  actions.className='pipeline-row-actions';
+  const badge=document.createElement('span');
+  badge.className='pipeline-badge';
+  const action=document.createElement('button');
+  action.className='pipeline-action';
+  if(opened){
+    const confirmed=state.confirmedSentEmails.includes(recipient.email);
+    badge.textContent=confirmed?'SENT':'DRAFT OPENED';
+    action.classList.toggle('confirmed',confirmed);
+    action.textContent=confirmed?'Undo sent':'Mark sent';
+    action.setAttribute('aria-label',`${confirmed?'Undo sent confirmation for':'Mark as sent'} ${recipient.store_name||recipient.email}`);
+    action.addEventListener('click',()=>toggleSentConfirmation(recipient.email));
+  }else{
+    badge.textContent='WAITING';
+    action.textContent='Open draft';
+    action.setAttribute('aria-label',`Open draft for ${recipient.store_name||recipient.email}`);
+    action.addEventListener('click',()=>openDraft(index));
+  }
+  actions.append(badge,action);
+  row.append(name,actions);
+  container.appendChild(row);
+}
+function addFlowItem(container,recipient,opened){
+  const item=document.createElement('div');
+  item.className='flow-item'+(opened?' opened':'');
+  item.textContent=recipient?recipient.store_name||recipient.email:'—';
+  container.appendChild(item);
+}
+function renderPipeline(){
+  const openedEmails=new Set(state.sentEmails);
+  const pending=state.recipients.filter(r=>!openedEmails.has(r.email));
+  const opened=state.recipients.filter(r=>openedEmails.has(r.email));
+  const confirmed=opened.filter(r=>state.confirmedSentEmails.includes(r.email)).length;
+  document.getElementById('pendingSummary').textContent=`${pending.length} waiting`;
+  document.getElementById('openedSummary').textContent=`${opened.length-confirmed} awaiting confirmation`;
+  document.getElementById('sentSummary').textContent=`${confirmed} confirmed sent`;
+  document.getElementById('flowSummary').textContent=`${opened.length} opened · ${pending.length} waiting`;
+
+  const pendingList=document.getElementById('pendingPipelineList');
+  const openedList=document.getElementById('openedPipelineList');
+  pendingList.replaceChildren();
+  openedList.replaceChildren();
+  if(pending.length)pending.slice(0,20).forEach(r=>addPipelineRow(pendingList,r,false,state.recipients.indexOf(r)));
+  else pendingList.innerHTML='<div class="pipeline-empty">No recipients waiting in the queue.</div>';
+  if(opened.length)opened.slice().reverse().slice(0,20).forEach(r=>addPipelineRow(openedList,r,true,state.recipients.indexOf(r)));
+  else openedList.innerHTML='<div class="pipeline-empty">No drafts have been opened yet.</div>';
+
+  const flowPending=document.getElementById('flowPendingList');
+  const flowOpened=document.getElementById('flowOpenedList');
+  const arrows=document.getElementById('flowArrows');
+  flowPending.replaceChildren();
+  flowOpened.replaceChildren();
+  arrows.replaceChildren();
+  const pendingRows=pending.slice(0,5);
+  const openedRows=opened.slice().reverse().slice(0,5);
+  const flowRows=Math.max(pendingRows.length,openedRows.length);
+  if(!flowRows){
+    addFlowItem(flowPending,null,false);
+    addFlowItem(flowOpened,null,true);
+  }else{
+    for(let i=0;i<flowRows;i++){
+      addFlowItem(flowPending,pendingRows[i],false);
+      addFlowItem(flowOpened,openedRows[i],true);
+      const arrow=document.createElement('span');
+      arrow.textContent='➜';
+      arrows.appendChild(arrow);
+    }
+  }
+}
+function toggleSentConfirmation(email){
+  if(state.confirmedSentEmails.includes(email)){
+    state.confirmedSentEmails=state.confirmedSentEmails.filter(e=>e!==email);
+  }else if(state.sentEmails.includes(email)){
+    state.confirmedSentEmails.push(email);
+  }
+  save();
+  renderPipeline();
 }
 
 // PLACEHOLDER
@@ -415,7 +699,8 @@ const debounced=(()=>{let t;return()=>{clearTimeout(t);t=setTimeout(()=>{save();
 // Write to the active variant immediately so switching tabs mid-typing can't misfile text
 document.getElementById('subject').addEventListener('input',e=>{activeV().s=e.target.value;debounced();});
 document.getElementById('body').addEventListener('input',e=>{activeV().b=e.target.value;debounced();});
-document.getElementById('delaySec').addEventListener('change',e=>{state.delay=parseInt(e.target.value)||2;save();});
+document.getElementById('delaySec').addEventListener('change',e=>{state.delay=Math.min(15,Math.max(1,parseInt(e.target.value)||2));e.target.value=state.delay;save();});
+document.getElementById('runLimit').addEventListener('change',e=>{state.runLimit=Math.min(500,Math.max(1,parseInt(e.target.value)||25));e.target.value=state.runLimit;save();});
 
 // CONTENT VARIANTS
 const vLetter=i=>String.fromCharCode(65+i);
@@ -447,7 +732,7 @@ function renderVariantBar(){
   state.variants.forEach((v,i)=>{
     const b=document.createElement('button');
     b.className='vtab'+(i===state.activeVariant?' active':'');
-    b.innerHTML=`${vLetter(i)}<small>${counts[i]} sent</small>`;
+    b.innerHTML=`${vLetter(i)}<small>${counts[i]} opened</small>`;
     b.onclick=()=>selectVariant(i);
     bar.appendChild(b);
   });
@@ -501,51 +786,138 @@ function copyPreview(){navigator.clipboard.writeText(document.getElementById('pr
 // CAMPAIGN
 function toggleMode(){
   state.mode=document.querySelector('input[name="sendMode"]:checked').value;save();
-  document.getElementById('autoControls').style.display=state.mode==='auto'?'block':'none';
-  document.getElementById('sendBtn').textContent=state.mode==='auto'?'🚀 Start':'🔄 Reset';
-  document.getElementById('sendBtn').onclick=state.mode==='auto'?startCampaign:()=>{state.queueIndex=0;stopCampaign();toast('Reset');};
-  stopCampaign();
+  if(isRunning)stopCampaign('stopped');
+  updateCampaignMode();
+}
+function updateCampaignMode(){
+  const sendButton=document.getElementById('sendBtn');
+  const automatic=state.mode==='auto';
+  sendButton.innerHTML=automatic
+    ?(state.campaignStatus==='paused'?'▶ RESUME CAMPAIGN<span class="campaign-subtitle">CONTINUE FROM THE SAVED QUEUE</span>':'▶ SEND CAMPAIGN<span class="campaign-subtitle">OPENS DRAFTS IN YOUR MAIL APP</span>')
+    :'↻ RESET CAMPAIGN<span class="campaign-subtitle">RESET CAMPAIGN QUEUE</span>';
+  sendButton.onclick=automatic?startCampaign:()=>{state.queueIndex=0;stopCampaign();toast('Reset');};
+  document.querySelector('.campaign-delay').classList.toggle('hidden',!automatic);
+}
+function updateCampaignControls(){
+  const sendButton=document.getElementById('sendBtn');
+  const pauseButton=document.getElementById('pauseBtn');
+  const stopButton=document.getElementById('stopBtn');
+  sendButton.disabled=isRunning&&!isPaused;
+  pauseButton.disabled=!isRunning;
+  pauseButton.textContent=isPaused?'▶ Resume':'⏸ Pause';
+  stopButton.disabled=!isRunning;
+  updateCampaignMode();
+}
+function campaignPreflight(){
+  const pending=state.recipients.map((recipient,index)=>({recipient,index}))
+    .filter(({recipient})=>!state.sentEmails.includes(recipient.email));
+  const invalid=pending.filter(({recipient})=>!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(recipient.email));
+  const seen=new Set();
+  const duplicates=pending.filter(({recipient})=>{
+    const email=String(recipient.email||'').trim().toLowerCase();
+    if(seen.has(email))return true;
+    seen.add(email);
+    return false;
+  });
+  const incomplete=pending.filter(({index})=>{
+    const variantIndex=variantFor(index);
+    const variants=variantIndex==null?variantPool():[variantIndex];
+    return !variants.some(i=>state.variants[i]?.s.trim()&&state.variants[i]?.b.trim());
+  });
+  const missingNames=pending.filter(({recipient})=>!recipient.store_name?.trim()).length;
+  return{pending,invalid,duplicates,incomplete,missingNames};
 }
 function startCampaign(){
+  if(isRunning&&!isPaused)return;
   if(!state.recipients.length)return toast('Add recipients first');
-  if(state.recipients.filter(r=>!state.sentEmails.includes(r.email)).length===0)return toast('All recipients contacted!');
-  isRunning=true;isPaused=false;
-  document.getElementById('sendBtn').disabled=true;
-  document.getElementById('pauseBtn').disabled=false;
-  document.getElementById('stopBtn').disabled=false;
+  const limit=Math.min(500,Math.max(1,parseInt(document.getElementById('runLimit').value)||25));
+  state.runLimit=limit;
+  state.delay=Math.min(15,Math.max(1,parseInt(document.getElementById('delaySec').value)||2));
+  document.getElementById('delaySec').value=state.delay;
+  document.getElementById('runLimit').value=limit;
+  const check=campaignPreflight();
+  if(!check.pending.length){
+    state.campaignStatus='completed';state.queueIndex=state.recipients.length;
+    save();updateProgress();updateCampaignControls();
+    return toast('All recipient drafts have already been opened.');
+  }
+  if(check.invalid.length||check.duplicates.length||check.incomplete.length){
+    const issues=[];
+    if(check.invalid.length)issues.push(`${check.invalid.length} invalid email address(es)`);
+    if(check.duplicates.length)issues.push(`${check.duplicates.length} duplicate recipient(s)`);
+    if(check.incomplete.length)issues.push(`${check.incomplete.length} recipient(s) have no complete subject and body`);
+    alert(`Campaign preflight needs attention:\n\n${issues.join('\n')}\n\nCorrect these issues before starting.`);
+    return;
+  }
+  if(!confirm(`Campaign preflight passed.\n\n${check.pending.length} drafts are waiting. This run will open up to ${Math.min(limit,check.pending.length)} draft(s), with a ${state.delay||2}-second delay.\n${check.missingNames?`${check.missingNames} recipient(s) have no store name; placeholders will use the default.\n`:''}\nTREDEX cannot detect whether you send these drafts. Continue?`))return;
+  isRunning=true;isPaused=false;state.campaignStatus='running';save();
   sessionStats={sent:0,skipped:0};
-  processNext();scheduleNext();toast('🚀 Campaign started');
+  document.getElementById('sentCount').textContent='0';
+  document.getElementById('skippedCount').textContent='0';
+  updateCampaignControls();processNext();scheduleNext();toast('🚀 Campaign started');
 }
 function scheduleNext(){
   if(!isRunning||isPaused)return;
   timerId=setTimeout(()=>{if(isRunning&&!isPaused){processNext();scheduleNext();}},( state.delay||2)*1000);
 }
 function processNext(){
-  if(state.queueIndex>=state.recipients.length){stopCampaign();toast('🏁 All done!');return;}
-  const r=state.recipients[state.queueIndex];
-  if(state.sentEmails.includes(r.email)){sessionStats.skipped++;document.getElementById('skippedCount').textContent=sessionStats.skipped;state.queueIndex++;return;}
-  openDraft(state.queueIndex);
-  if(!state.sentEmails.includes(r.email))state.sentEmails.push(r.email);
+  while(state.queueIndex<state.recipients.length&&state.sentEmails.includes(state.recipients[state.queueIndex].email)){
+    sessionStats.skipped++;
+    state.queueIndex++;
+  }
+  document.getElementById('skippedCount').textContent=sessionStats.skipped;
+  if(state.queueIndex>=state.recipients.length){stopCampaign('completed');toast('🏁 All done!');return;}
+  if(sessionStats.sent>=state.runLimit){stopCampaign('paused');toast(`⏸ Run limit reached (${state.runLimit}). Resume when ready.`);return;}
+  if(!openDraft(state.queueIndex)){
+    stopCampaign('paused');
+    toast('⚠️ Draft handoff failed. The queue is paused.');
+    return;
+  }
   sessionStats.sent++;document.getElementById('sentCount').textContent=sessionStats.sent;
   state.queueIndex++;updateProgress();renderTable();updateStats();updateSelector();renderVariantBar();save();
+  if(state.queueIndex>=state.recipients.length){
+    stopCampaign('completed');toast('🏁 All done!');
+  }else if(sessionStats.sent>=state.runLimit){
+    stopCampaign('paused');toast(`⏸ Run limit reached (${state.runLimit}). Resume when ready.`);
+  }
 }
 function openDraft(idx,isTest){
   const r=state.recipients[idx];
+  if(!r)return false;
   let vi=variantFor(idx);
   if(vi==null){const pool=variantPool();vi=pool[Math.floor(Math.random()*pool.length)];}
-  // Remember which content this recipient got (test drafts don't count)
-  if(!isTest){state.assigned[r.email]=vi;save();renderTable();renderVariantBar();updatePreview();}
   const v=state.variants[vi];
   const subj=rep(v.s,r);
   const body=rep(v.b,r);
   const link=`mailto:${encodeURIComponent(r.email)}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body.replace(/\n/g,'\r\n'))}`;
-  try{const a=document.createElement('a');a.href=link;a.target='_blank';a.rel='noopener';document.body.appendChild(a);a.click();document.body.removeChild(a);}
-  catch(e){console.error('Mailto failed',e);toast('⚠️ Mail app blocked — check settings');}
+  let linkElement;
+  try{
+    linkElement=document.createElement('a');linkElement.href=link;linkElement.target='_blank';linkElement.rel='noopener';document.body.appendChild(linkElement);linkElement.click();
+  }catch(e){console.error('Mailto failed',e);toast('⚠️ Mail app blocked — check settings');return false;}
+  finally{if(linkElement?.parentNode)linkElement.parentNode.removeChild(linkElement);}
+  if(!isTest){
+    state.assigned[r.email]=vi;
+    if(!state.sentEmails.includes(r.email))state.sentEmails.push(r.email);
+    save();renderTable();renderVariantBar();updatePreview();updateStats();
+  }
+  return true;
 }
-function pauseCampaign(){isPaused=!isPaused;document.getElementById('pauseBtn').textContent=isPaused?'▶️ Resume':'⏸ Pause';if(!isPaused)scheduleNext();save();toast(isPaused?'⏸ Paused':'▶️ Resumed');}
-function stopCampaign(){isRunning=false;isPaused=false;clearTimeout(timerId);document.getElementById('sendBtn').disabled=false;document.getElementById('pauseBtn').disabled=true;document.getElementById('pauseBtn').textContent='⏸ Pause';document.getElementById('stopBtn').disabled=true;updateStats();save();}
-function updateProgress(){document.getElementById('progressFill').style.width=`${(state.queueIndex/state.recipients.length)*100}%`;}
-function openTestDraft(){const si=parseInt(document.getElementById('recipientSelector').value);if(si===-1||!state.recipients[si])return toast('Select a recipient first');openDraft(si,true);toast('🧪 Draft opened');}
+function pauseCampaign(){
+  if(!isRunning)return;
+  isPaused=!isPaused;
+  state.campaignStatus=isPaused?'paused':'running';
+  save();updateCampaignControls();
+  if(!isPaused)scheduleNext();
+  toast(isPaused?'⏸ Paused':'▶️ Resumed');
+}
+function stopCampaign(status='stopped'){
+  isRunning=false;isPaused=false;clearTimeout(timerId);
+  state.campaignStatus=status;
+  updateProgress();
+  updateCampaignControls();updateStats();save();
+}
+function updateProgress(){const progress=state.recipients.length?state.queueIndex/state.recipients.length:0;document.getElementById('progressFill').style.width=`${progress*100}%`;}
+function openTestDraft(){const si=parseInt(document.getElementById('recipientSelector').value);if(si===-1||!state.recipients[si])return toast('Select a recipient first');if(openDraft(si,true))toast('🧪 Draft handoff opened');}
 
 // EXPORT / IMPORT
 function exportState(){const d={...state,lastSaved:null};const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`tredex-${new Date().toISOString().slice(0,10)}.json`;a.click();toast('📤 Exported');}
@@ -559,6 +931,10 @@ function updateStats(){
   document.getElementById('totalCount').textContent=t;
   document.getElementById('alreadySent').textContent=a;
   document.getElementById('remainCount').textContent=Math.max(0,t-a);
+  document.getElementById('headerTotal').textContent=t.toLocaleString();
+  document.getElementById('headerSent').textContent=a.toLocaleString();
+  document.getElementById('headerRemaining').textContent=Math.max(0,t-a).toLocaleString();
+  renderPipeline();
 }
 
 // REVIEW EDITOR
@@ -568,8 +944,20 @@ function clearReview(){if(confirm('Discard?'))document.getElementById('reviewSec
 function confirmReview(){const rows=document.querySelectorAll('#reviewTbody tr'),parsed=[];rows.forEach(tr=>{const inp=tr.querySelectorAll('input');const[e,u,n,ni]=Array.from(inp).map(i=>i.value.trim());if(e&&e.includes('@'))parsed.push({email:e.toLowerCase(),store_url:u,store_name:n||'Merchant',store_niche:ni||'E-commerce'});});if(!parsed.length)return toast('⚠️ No valid emails');addRecipients(parsed);document.getElementById('reviewSection').classList.add('hidden');}
 
 // INIT
-function init(){load();filtered=state.recipients.map((_,i)=>i);renderVariantBar();updateTemplates();updatePreview();updateSelector();updateStats();renderTable();}
+function init(){load();filtered=state.recipients.map((_,i)=>i);renderVariantBar();updateTemplates();updatePreview();updateSelector();updateCampaignMode();selectPipelineView('pending');updateStats();updateProgress();renderTable();}
 init();
+document.addEventListener('keydown',e=>{
+  if(e.altKey&&e.key==='ArrowDown'&&!e.ctrlKey&&!e.metaKey){
+    const target=e.target;
+    if(target instanceof HTMLElement&&(
+      target.isContentEditable||['INPUT','TEXTAREA','SELECT'].includes(target.tagName)
+    ))return;
+    e.preventDefault();
+    const index=state.recipients.findIndex(r=>!state.sentEmails.includes(r.email));
+    if(index===-1)toast('No pending drafts.');
+    else openDraft(index);
+  }
+});
 </script>
 </body>
 </html>

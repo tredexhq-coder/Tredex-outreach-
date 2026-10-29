@@ -1,5 +1,5 @@
-const CACHE = 'tredex-v1';
-const ASSETS = ['./index.html', './manifest.json'];
+const CACHE = 'tredex-v2';
+const ASSETS = ['./index.html', './manifest.json', './20261006_172013.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
