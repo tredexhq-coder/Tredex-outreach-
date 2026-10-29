@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="TREDEX">
+  <meta name="theme-color" content="#f97316">
+  <link rel="manifest" href="manifest.json">
+  <title>TREDEX Outreach</title>
+  <style>
+    :root {
+      --bg:#0f172a;--card:#1e293b;--text:#e2e8f0;--muted:#94a3b8;
+      --primary:#f97316;--primary-hover:#ea580c;--success:#22c55e;--danger:#ef4444;--warn:#f59e0b;
+      --border:#334155;--radius:10px;--shadow:0 4px 12px rgba(0,0,0,0.3);
+      --safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px);
+    }
+    *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,sans-serif;-webkit-tap-highlight-color:transparent;}
+    body{background:var(--bg);color:var(--text);padding:12px 12px calc(12px + var(--safe-bottom)) 12px;padding-top:calc(12px + var(--safe-top));line-height:1.5;min-height:100dvh;}
+    .container{max-width:640px;margin:0 auto;}
+    /* INSTALL BANNER */
+    #installBanner{display:none;align-items:center;gap:10px;background:linear-gradient(135deg,#1e3a5f,#1e293b);border:1px solid var(--primary);border-radius:var(--radius);padding:10px 12px;margin-bottom:14px;box-shadow:0 0 16px rgba(249,115,22,.2);}
+    #installBanner.visible{display:flex;}
+    .ib-text{flex:1;font-size:.82rem;color:var(--text);}
+    .ib-text strong{color:var(--primary);}
+    .ib-btns{display:flex;gap:6px;}
+    /* HEADER */
+    .header{text-align:center;margin-bottom:18px;padding:18px 16px;background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);border-radius:var(--radius);border:1px solid var(--border);}
+    .logo{width:56px;height:56px;margin-bottom:8px;filter:drop-shadow(0 2px 4px rgba(249,115,22,.3));}
+    h1{font-size:1.7rem;margin-bottom:2px;color:var(--primary);font-weight:800;letter-spacing:1.5px;}
+    .subtitle{color:var(--muted);font-size:.82rem;}
+    /* CARDS */
+    .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:12px;border-left:4px solid var(--primary);box-shadow:var(--shadow);}
+    h2{font-size:1rem;margin-bottom:10px;display:flex;align-items:center;gap:7px;color:var(--primary);}
+    label{display:block;margin-bottom:4px;color:var(--muted);font-size:.82rem;font-weight:500;}
+    /* INPUTS */
+    input[type="text"],input[type="number"],input[type="file"],textarea,select{width:100%;background:#0b1120;border:1px solid var(--border);color:var(--text);padding:11px 10px;border-radius:7px;font-size:1rem;margin-bottom:10px;transition:border-color .2s;appearance:none;-webkit-appearance:none;}
+    input:focus,textarea:focus,select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 2px rgba(249,115,22,.2);}
+    textarea{min-height:110px;resize:vertical;}
+    select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394a3b8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;}
+    /* BUTTONS */
+    .btn{padding:10px 14px;border:none;border-radius:7px;cursor:pointer;font-weight:600;font-size:.9rem;transition:.18s;display:inline-flex;align-items:center;gap:5px;min-height:44px;touch-action:manipulation;}
+    .btn:disabled{opacity:.45;cursor:not-allowed;}
+    .btn:active:not(:disabled){transform:scale(.96);}
+    .btn-primary{background:var(--primary);color:#000;}
+    .btn-primary:hover:not(:disabled){background:var(--primary-hover);}
+    .btn-danger{background:var(--danger);color:#fff;}
+    .btn-warn{background:var(--warn);color:#000;}
+    .btn-secondary{background:#334155;color:var(--text);}
+    .btn-sm{padding:7px 10px;font-size:.8rem;min-height:36px;}
+    .btn-group{display:flex;gap:7px;margin-top:6px;flex-wrap:wrap;}
+    /* TABLE */
+    table{width:100%;border-collapse:collapse;font-size:.8rem;}
+    th,td{padding:7px 6px;text-align:left;border-bottom:1px solid var(--border);}
+    th{color:var(--primary);font-weight:600;position:sticky;top:0;background:#1e293b;z-index:2;user-select:none;}
+    .tbl-wrap{max-height:240px;overflow-y:auto;border:1px solid var(--border);border-radius:7px;-webkit-overflow-scrolling:touch;}
+    /* STATS */
+    .stats{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px;}
+    .stat-box{flex:1;min-width:70px;background:#0b1120;padding:8px 6px;border-radius:6px;text-align:center;border:1px solid var(--border);}
+    .stat-box span{display:block;font-size:1.25rem;font-weight:bold;color:var(--primary);}
+    .stat-box small{color:var(--muted);font-size:.68rem;}
+    /* MISC */
+    .preview-box{background:#0b1120;padding:10px;border-radius:6px;white-space:pre-wrap;font-family:ui-monospace,monospace;margin-top:6px;max-height:140px;overflow-y:auto;border:1px solid var(--border);font-size:.8rem;}
+    .note{background:#1e293b;border-left:4px solid var(--primary);padding:8px 10px;font-size:.78rem;color:var(--muted);margin-bottom:12px;border-radius:0 6px 6px 0;}
+    .hidden{display:none!important;}
+    .file-input{display:none;}
+    .tag{display:inline-block;padding:2px 5px;border-radius:3px;font-size:.65rem;font-weight:600;}
+    .tag-sent{background:rgba(34,197,94,.2);color:var(--success);}
+    .tag-pending{background:rgba(249,115,22,.2);color:var(--primary);}
+    .review-wrap{max-height:240px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;margin-bottom:8px;background:#0b1120;-webkit-overflow-scrolling:touch;}
+    .review-input{width:100%;background:transparent;border:1px solid #475569;color:var(--text);padding:6px;font-size:.82rem;border-radius:4px;}
+    .mode-toggle{display:flex;gap:10px;background:#0b1120;padding:8px;border-radius:6px;margin-bottom:8px;border:1px solid var(--border);flex-wrap:wrap;}
+    .mode-toggle label{display:flex;align-items:center;gap:5px;cursor:pointer;color:var(--text);font-size:.88rem;padding:4px 0;}
+    .mode-toggle input[type="radio"]{accent-color:var(--primary);width:17px;height:17px;}
+    .row-btn{padding:5px 8px;font-size:.78rem;background:var(--primary);color:#000;border:none;border-radius:4px;cursor:pointer;margin-right:3px;min-height:32px;}
+    .row-btn.del{background:#334155;color:var(--danger);}
+    .row-btn:disabled{background:#334155;color:#94a3b8;cursor:not-allowed;}
+    .filter-row{display:flex;gap:6px;margin-bottom:6px;flex-wrap:wrap;}
+    .filter-row input,.filter-row select{flex:1;margin-bottom:0;padding:9px;font-size:.85rem;min-width:100px;}
+    .progress-bar{height:6px;background:#334155;border-radius:3px;margin-top:8px;overflow:hidden;}
+    .progress-fill{height:100%;background:var(--primary);width:0%;transition:width .3s;}
+    .toast{position:fixed;bottom:calc(16px + var(--safe-bottom));left:50%;transform:translateX(-50%) translateY(10px);background:var(--card);border:1px solid var(--primary);padding:10px 16px;border-radius:20px;box-shadow:var(--shadow);z-index:9999;opacity:0;transition:.3s;pointer-events:none;font-size:.85rem;white-space:nowrap;}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+    .drop-zone{border:2px dashed var(--border);padding:14px;text-align:center;border-radius:7px;cursor:pointer;margin:8px 0;background:#0b1120;transition:.2s;}
+    .drop-zone:hover,.drop-zone.dragover{border-color:var(--primary);background:rgba(249,115,22,.1);}
+    .offline-badge{display:none;background:#334155;color:var(--muted);font-size:.72rem;padding:3px 8px;border-radius:20px;margin-left:8px;vertical-align:middle;}
+    body.offline .offline-badge{display:inline-block;}
+    .variant-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;}
+    .vtab{background:#0b1120;border:1px solid var(--border);color:var(--text);border-radius:7px;padding:6px 12px;min-height:36px;font-weight:700;cursor:pointer;font-size:.85rem;touch-action:manipulation;}
+    .vtab small{color:var(--muted);font-weight:500;margin-left:4px;font-size:.7rem;}
+    .vtab.active{background:var(--primary);border-color:var(--primary);color:#000;}
+    .vtab.active small{color:#000;opacity:.7;}
+    .vtab.add{border-style:dashed;color:var(--muted);}
+    .vtag{display:inline-block;margin-left:3px;padding:1px 4px;border-radius:3px;font-size:.65rem;font-weight:700;background:#334155;color:var(--text);}
+    .vtag.predicted{opacity:.55;}
+    .footer{text-align:center;margin-top:14px;padding:10px;color:var(--muted);font-size:.72rem;}
+    @media(max-width:480px){.card{padding:11px;}table{font-size:.72rem;}th,td{padding:5px 4px;}.btn-group{flex-direction:column;}.btn-group .btn{justify-content:center;}h1{font-size:1.5rem;}}
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- INSTALL BANNER -->
+  <div id="installBanner">
+    <div class="ib-text"><strong>📲 Install TREDEX</strong><br>Add to home screen for offline use &amp; fast access.</div>
+    <div class="ib-btns">
+      <button class="btn btn-primary btn-sm" id="installBtn">Install</button>
+      <button class="btn btn-secondary btn-sm" id="dismissInstall">✕</button>
+    </div>
+  </div>
+
+  <div class="header">
+    <svg class="logo" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f97316"/><stop offset="100%" stop-color="#ea580c"/></linearGradient></defs>
+      <path d="M30 25 L120 25 Q140 25 150 35 L150 45 Q140 35 120 35 L70 35 L70 115 L120 115 Q140 115 140 95 L140 75 Q140 65 130 65 L110 65 L110 85 L90 85 L90 55 L130 55 Q160 55 160 95 L160 95 Q160 135 120 135 L50 135 L50 25 Z" fill="url(#grad)"/>
+      <path d="M145 25 L170 25 L170 135 L150 135 Z" fill="url(#grad)"/>
+      <path d="M120 35 L170 115 L155 125 L105 45 Z" fill="url(#grad)"/>
+    </svg>
+    <h1>TREDEX <span class="offline-badge">Offline</span></h1>
+    <p class="subtitle">100% Local · Zero APIs · Opens Gmail / Mail App</p>
+  </div>
+
+  <div class="note">📱 <strong>Android Workflow:</strong> Tap <strong>Start</strong> — each contact opens a pre-filled Gmail draft. Hit <strong>Send</strong> in Gmail, then come back. Progress is saved locally on your device.</div>
+
+  <!-- 1. Recipients -->
+  <div class="card">
+    <h2>📋 1. Add Recipients</h2>
+    <div class="btn-group" style="margin-bottom:10px;">
+      <button class="btn btn-secondary" onclick="togglePaste()">✏️ Paste List</button>
+    </div>
+    <div id="pasteArea" class="hidden">
+      <label>Format: <code>email, store_url, store_name, niche</code></label>
+      <textarea id="rawRecipients" placeholder="alice@shop.com, https://alice.com, Alice Boutique, Fashion&#10;bob@shop.com, https://bob.com, Bob Store, Home" style="font-size:.85rem;"></textarea>
+      <button class="btn btn-primary" style="width:100%;" onclick="parseRawText()">➕ Open in Review</button>
+    </div>
+    <div id="dropZone" class="drop-zone">
+      📂 Tap to import CSV / TXT<br>
+      <small style="color:var(--muted);">Columns: email, store_url, store_name, niche</small>
+      <input type="file" class="file-input" id="csvFile" accept=".csv,.txt">
+    </div>
+    <div class="stats">
+      <div class="stat-box"><span id="totalCount">0</span><small>Total</small></div>
+      <div class="stat-box"><span id="alreadySent">0</span><small>Sent</small></div>
+      <div class="stat-box"><span id="remainCount">0</span><small>Remaining</small></div>
+    </div>
+    <div class="btn-group" style="margin-top:10px;">
+      <button class="btn btn-danger" onclick="clearRecipients()">🗑 Clear List</button>
+      <button class="btn btn-warn" onclick="clearSentHistory()">🧹 Clear Memory</button>
+      <button class="btn btn-secondary" onclick="exportState()">📤 Export</button>
+      <label class="btn btn-secondary" style="cursor:pointer;">📥 Import<input type="file" class="file-input" id="importFile" accept=".json"></label>
+    </div>
+  </div>
+
+  <!-- REVIEW -->
+  <div id="reviewSection" class="card hidden">
+    <h2>📝 Review &amp; Edit</h2>
+    <div class="review-wrap">
+      <table><thead><tr><th>#</th><th>Email</th><th>URL</th><th>Name</th><th>Niche</th><th></th></tr></thead><tbody id="reviewTbody"></tbody></table>
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-secondary" onclick="addReviewRow()">➕ Add Row</button>
+      <button class="btn btn-secondary" onclick="clearReview()">❌ Discard</button>
+      <button class="btn btn-primary" onclick="confirmReview()">✅ Confirm &amp; Add</button>
+    </div>
+  </div>
+
+  <!-- 2. Compose -->
+  <div class="card">
+    <h2>✍️ 2. Compose Email</h2>
+    <label>📑 Content Variants</label>
+    <div class="variant-bar" id="variantBar"></div>
+    <div style="display:flex;gap:6px;margin-bottom:6px;align-items:stretch;">
+      <select id="rotationMode" style="flex:2;margin-bottom:0;" onchange="setRotation()">
+        <option value="sequential">🔁 Rotate in order (A → B → C…)</option>
+        <option value="random">🎲 Rotate randomly</option>
+        <option value="off">⛔ No rotation (selected only)</option>
+      </select>
+      <button class="btn btn-secondary btn-sm" onclick="duplicateVariant()" title="Duplicate variant">⧉</button>
+      <button class="btn btn-danger btn-sm" onclick="removeVariant()" title="Remove variant">🗑</button>
+    </div>
+    <p style="color:var(--muted);font-size:.72rem;margin-bottom:10px;">Each recipient gets one variant. Empty variants are skipped. The variant a recipient receives is remembered.</p>
+    <label>💾 Templates</label>
+    <div style="display:flex;gap:6px;margin-bottom:10px;align-items:stretch;">
+      <select id="templateSelect" style="flex:2;margin-bottom:0;" onchange="loadTemplate()"><option value="">-- Saved --</option></select>
+      <button class="btn btn-secondary btn-sm" onclick="saveTemplate()">💾</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteTemplate()">🗑</button>
+    </div>
+    <label>Subject Line</label>
+    <input type="text" id="subject" placeholder="Quick question about {{store_name}}" autocomplete="off" autocorrect="off">
+    <label>Email Body</label>
+    <textarea id="body" placeholder="Hi {{store_name}},&#10;&#10;I noticed your {{store_niche}} store at {{store_url}}...&#10;&#10;Best,"></textarea>
+    <p style="color:var(--muted);font-size:.72rem;margin-top:-6px;margin-bottom:10px;">Placeholders: <code>{{store_name}}</code> <code>{{store_url}}</code> <code>{{store_niche}}</code> <code>{{email}}</code></p>
+    <label>Preview With</label>
+    <select id="recipientSelector" onchange="updatePreview()" style="margin-bottom:8px;"><option value="-1">-- Add recipients first --</option></select>
+    <div class="btn-group" style="margin-bottom:6px;">
+      <button class="btn btn-secondary btn-sm" onclick="updatePreview()">👁 Refresh</button>
+      <button class="btn btn-secondary btn-sm" onclick="copyPreview()">📋 Copy</button>
+    </div>
+    <div class="preview-box" id="previewBox">Add recipients to preview.</div>
+    <div style="margin-top:10px;">
+      <button class="btn btn-primary" style="width:100%;" onclick="openTestDraft()">🧪 Test Draft in Gmail</button>
+    </div>
+  </div>
+
+  <!-- 3. Campaign -->
+  <div class="card">
+    <h2>🚀 3. Send Campaign</h2>
+    <div class="mode-toggle">
+      <label><input type="radio" name="sendMode" value="auto" checked onchange="toggleMode()"> 🤖 Auto (Sequential)</label>
+      <label><input type="radio" name="sendMode" value="manual" onchange="toggleMode()"> 👆 Manual (Pick Rows)</label>
+    </div>
+    <div id="autoControls">
+      <label>Delay between opens (seconds)</label>
+      <input type="number" id="delaySec" value="2" min="1" max="15">
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-primary" id="sendBtn" onclick="startCampaign()">🚀 Start</button>
+      <button class="btn btn-warn" id="pauseBtn" onclick="pauseCampaign()" disabled>⏸ Pause</button>
+      <button class="btn btn-danger" id="stopBtn" onclick="stopCampaign()" disabled>⏹ Stop</button>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="stats">
+      <div class="stat-box"><span id="sentCount">0</span><small>Opened</small></div>
+      <div class="stat-box"><span id="skippedCount">0</span><small>Skipped</small></div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="card">
+    <h2>📊 Recipients</h2>
+    <div class="filter-row">
+      <input type="text" id="filterEmail" placeholder="🔍 Email..." oninput="applyFilters()" style="margin-bottom:0;">
+      <input type="text" id="filterName" placeholder="🔍 Name..." oninput="applyFilters()" style="margin-bottom:0;">
+      <select id="sortSelect" onchange="applyFilters()" style="margin-bottom:0;">
+        <option value="index">Sort: Index</option>
+        <option value="email">Sort: Email</option>
+        <option value="name">Sort: Name</option>
+        <option value="status">Sort: Status</option>
+      </select>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Status</th><th>Email</th><th>Name</th><th>Action</th></tr></thead>
+        <tbody id="recipientTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer">© 2026 TREDEX Digital Marketing · Data stored locally · <code>mailto:</code> protocol</div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+// SERVICE WORKER
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./sw.js').catch(e=>console.warn('SW:',e));
+}
+
+// OFFLINE
+function syncOnline(){document.body.classList.toggle('offline',!navigator.onLine);}
+window.addEventListener('online',syncOnline);
+window.addEventListener('offline',syncOnline);
+syncOnline();
+
+// INSTALL PROMPT
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();deferredPrompt=e;
+  if(!localStorage.getItem('tredex_dismissed'))
+    document.getElementById('installBanner').classList.add('visible');
+});
+document.getElementById('installBtn').addEventListener('click',async()=>{
+  if(!deferredPrompt)return;
+  deferredPrompt.prompt();
+  const{outcome}=await deferredPrompt.userChoice;
+  deferredPrompt=null;
+  document.getElementById('installBanner').classList.remove('visible');
+  if(outcome==='accepted')toast('✅ Installed! Find TREDEX on your home screen.');
+});
+document.getElementById('dismissInstall').addEventListener('click',()=>{
+  localStorage.setItem('tredex_dismissed','1');
+  document.getElementById('installBanner').classList.remove('visible');
+});
+window.addEventListener('appinstalled',()=>{
+  document.getElementById('installBanner').classList.remove('visible');
+  toast('🎉 App installed!');
+});
+
+// STATE
+const KEY='tredex_local_v1';
+let state={recipients:[],sentEmails:[],queueIndex:0,variants:[{s:'',b:''}],activeVariant:0,rotation:'sequential',assigned:{},delay:2,mode:'auto',templates:{},lastSaved:null};
+let isRunning=false,isPaused=false,timerId=null;
+let sessionStats={sent:0,skipped:0};
+
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400);}
+function save(){state.lastSaved=Date.now();try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){console.warn('Save failed',e);}}
+function load(){
+  const s=localStorage.getItem(KEY);if(!s)return;
+  try{
+    const p=JSON.parse(s);state={...state,...normalize(p)};
+    fillEditor();
+    document.getElementById('rotationMode').value=state.rotation;
+    document.getElementById('delaySec').value=state.delay||2;
+    const m=document.querySelector(`input[name="sendMode"][value="${state.mode}"]`);
+    if(m)m.checked=true;
+    renderTable();updateStats();updatePreview();updateTemplates();renderVariantBar();
+  }catch(e){console.error('Load failed',e);}
+}
+// Upgrade older saves/exports that only had a single subject/body
+function normalize(p){
+  p={...p};
+  if(!Array.isArray(p.variants)||!p.variants.length){
+    if(p.subject!==undefined||p.body!==undefined)p.variants=[{s:p.subject||'',b:p.body||''}];
+    else delete p.variants;
+  }
+  delete p.subject;delete p.body;
+  if(p.variants&&!(p.activeVariant<p.variants.length))p.activeVariant=0;
+  return p;
+}
+
+// FILE IMPORT
+const dropZone=document.getElementById('dropZone');
+const csvInput=document.getElementById('csvFile');
+dropZone.addEventListener('click',()=>csvInput.click());
+dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.add('dragover');});
+dropZone.addEventListener('dragleave',()=>dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.classList.remove('dragover');if(e.dataTransfer.files[0])handleFile(e.dataTransfer.files[0]);});
+csvInput.addEventListener('change',e=>{if(e.target.files[0])handleFile(e.target.files[0]);});
+
+function handleFile(f){
+  if(!f.name.match(/\.(csv|txt)$/i))return toast('⚠️ Only .csv/.txt');
+  const r=new FileReader();
+  r.onload=ev=>{try{const d=parseCSV(ev.target.result);if(d.length){openReview(d);toast(`📋 ${d.length} rows to review`);}else toast('⚠️ No valid emails');}catch(e){toast('❌ Parse error');}};
+  r.readAsText(f);
+}
+function parseCSV(text){
+  const lines=text.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n').filter(l=>l.trim());
+  if(!lines.length)return[];
+  const delim=lines[0].includes('\t')?'\t':(lines[0].includes(';')?';':',');
+  let start=0;if(lines[0].toLowerCase().includes('email'))start=1;
+  return lines.slice(start).map(l=>{
+    const c=l.split(delim).map(x=>x.trim().replace(/^["']|["']$/g,''));
+    const email=(c[0]||'').toLowerCase();
+    return email&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)?{email,store_url:c[1]||'',store_name:c[2]||'Merchant',store_niche:c[3]||'E-commerce'}:null;
+  }).filter(Boolean);
+}
+
+// RECIPIENTS
+function togglePaste(){document.getElementById('pasteArea').classList.toggle('hidden');}
+function parseRawText(){
+  const t=document.getElementById('rawRecipients').value.trim();
+  if(!t)return toast('Paste data first');
+  const parsed=parseCSV(t);
+  if(!parsed.length)return toast('⚠️ No valid emails');
+  openReview(parsed);
+  document.getElementById('rawRecipients').value='';
+  document.getElementById('pasteArea').classList.add('hidden');
+}
+function addRecipients(arr){
+  const ex=new Set(state.recipients.map(r=>r.email));let added=0;
+  arr.forEach(r=>{if(!ex.has(r.email)){state.recipients.push(r);ex.add(r.email);added++;}});
+  renderTable();updateStats();updatePreview();updateSelector();save();
+  if(added)toast(`✅ Added ${added} recipient${added>1?'s':''}`);
+}
+function deleteRow(idx){
+  if(!confirm('Delete this recipient?'))return;
+  const rem=state.recipients.splice(idx,1)[0];
+  state.sentEmails=state.sentEmails.filter(e=>e!==rem.email);
+  delete state.assigned[rem.email];
+  if(state.queueIndex>idx)state.queueIndex--;
+  renderTable();updateStats();updatePreview();updateSelector();save();toast('🗑 Deleted');
+}
+function clearRecipients(){if(!confirm('Clear all?'))return;state.recipients=[];state.queueIndex=0;state.assigned={};renderTable();updateStats();updatePreview();updateSelector();save();toast('🗑 Cleared');}
+function clearSentHistory(){if(!confirm('Clear sent memory?'))return;state.sentEmails=[];state.queueIndex=0;state.assigned={};renderTable();updateStats();renderVariantBar();save();toast('🧹 Memory cleared');}
+
+// FILTER & RENDER
+let filtered=[];
+function applyFilters(){
+  const eq=document.getElementById('filterEmail').value.toLowerCase();
+  const nq=document.getElementById('filterName').value.toLowerCase();
+  const sk=document.getElementById('sortSelect').value;
+  filtered=state.recipients.map((r,i)=>({...r,idx:i}))
+    .filter(r=>r.email.includes(eq)&&(r.store_name+' '+r.store_niche).toLowerCase().includes(nq))
+    .sort((a,b)=>{
+      let va=sk==='index'?a.idx:(sk==='status'?(state.sentEmails.includes(a.email)?1:0):a[sk==='name'?'store_name':'store_niche']);
+      let vb=sk==='index'?b.idx:(sk==='status'?(state.sentEmails.includes(b.email)?1:0):b[sk==='name'?'store_name':'store_niche']);
+      if(typeof va==='string')va=va.toLowerCase();if(typeof vb==='string')vb=vb.toLowerCase();
+      return va<vb?-1:(va>vb?1:0);
+    }).map(r=>r.idx);
+  renderTable();updateStats();
+}
+function renderTable(){
+  const tb=document.getElementById('recipientTable');tb.innerHTML='';
+  if(!filtered.length)filtered=state.recipients.map((_,i)=>i);
+  const lim=Math.min(filtered.length,150);
+  for(let i=0;i<lim;i++){
+    const idx=filtered[i],r=state.recipients[idx];if(!r)continue;
+    const isSent=state.sentEmails.includes(r.email);
+    const tag=(isSent?'<span class="tag tag-sent">✅</span>':'<span class="tag tag-pending">⏳</span>')+variantTag(idx,isSent);
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${idx+1}</td><td>${tag}</td><td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r.email}</td><td>${r.store_name}</td><td><button class="row-btn" ${isSent?'disabled':''} onclick="openDraft(${idx})">📧</button><button class="row-btn del" onclick="deleteRow(${idx})">🗑</button></td>`;
+    tb.appendChild(tr);
+  }
+  if(filtered.length>150){const tr=document.createElement('tr');tr.innerHTML=`<td colspan="5" style="text-align:center;color:var(--muted);padding:8px;">Showing 150/${filtered.length}. Use filter.</td>`;tb.appendChild(tr);}
+}
+
+// PLACEHOLDER
+function rep(tmpl,r){return tmpl.replace(/\{\{store_name\}\}/gi,r.store_name||'Merchant').replace(/\{\{store_url\}\}/gi,r.store_url||'').replace(/\{\{email\}\}/gi,r.email||'').replace(/\{\{store_niche\}\}/gi,r.store_niche||'E-commerce');}
+
+// PREVIEW & TEMPLATES
+const debounced=(()=>{let t;return()=>{clearTimeout(t);t=setTimeout(()=>{save();updatePreview();},300);};})();
+// Write to the active variant immediately so switching tabs mid-typing can't misfile text
+document.getElementById('subject').addEventListener('input',e=>{activeV().s=e.target.value;debounced();});
+document.getElementById('body').addEventListener('input',e=>{activeV().b=e.target.value;debounced();});
+document.getElementById('delaySec').addEventListener('change',e=>{state.delay=parseInt(e.target.value)||2;save();});
+
+// CONTENT VARIANTS
+const vLetter=i=>String.fromCharCode(65+i);
+function activeV(){return state.variants[state.activeVariant]||state.variants[0];}
+function fillEditor(){const v=activeV();document.getElementById('subject').value=v.s||'';document.getElementById('body').value=v.b||'';}
+// Variants that take part in rotation (non-empty); falls back to all if every variant is empty
+function variantPool(){const p=state.variants.map((v,i)=>(v.s.trim()||v.b.trim())?i:-1).filter(i=>i>=0);return p.length?p:state.variants.map((_,i)=>i);}
+// Variant index for a recipient, or null if it will be picked randomly when opened
+function variantFor(idx){
+  const r=state.recipients[idx];if(!r)return state.activeVariant;
+  if(state.rotation==='off')return state.activeVariant;
+  const a=state.assigned[r.email];
+  if(a!=null&&a<state.variants.length)return a;
+  const pool=variantPool();
+  return state.rotation==='random'?null:pool[idx%pool.length];
+}
+function variantTag(idx,isSent){
+  if(state.variants.length<2)return'';
+  const r=state.recipients[idx],a=state.assigned[r.email];
+  if(a!=null&&a<state.variants.length)return`<span class="vtag">${vLetter(a)}</span>`;
+  if(isSent)return'';
+  const v=variantFor(idx);
+  return v==null?'<span class="vtag predicted">?</span>':`<span class="vtag predicted">${vLetter(v)}</span>`;
+}
+function renderVariantBar(){
+  const bar=document.getElementById('variantBar');bar.innerHTML='';
+  const counts=state.variants.map(()=>0);
+  state.sentEmails.forEach(e=>{const a=state.assigned[e];if(a!=null&&a<counts.length)counts[a]++;});
+  state.variants.forEach((v,i)=>{
+    const b=document.createElement('button');
+    b.className='vtab'+(i===state.activeVariant?' active':'');
+    b.innerHTML=`${vLetter(i)}<small>${counts[i]} sent</small>`;
+    b.onclick=()=>selectVariant(i);
+    bar.appendChild(b);
+  });
+  if(state.variants.length<26){
+    const add=document.createElement('button');add.className='vtab add';add.textContent='➕ Add';add.onclick=()=>addVariant();bar.appendChild(add);
+  }
+}
+function selectVariant(i){state.activeVariant=i;fillEditor();renderVariantBar();updatePreview();save();}
+function addVariant(copy){
+  if(state.variants.length>=26)return toast('⚠️ Max 26 variants');
+  state.variants.push(copy?{...activeV()}:{s:'',b:''});
+  selectVariant(state.variants.length-1);renderTable();
+  toast(`📑 Variant ${vLetter(state.activeVariant)} ${copy?'duplicated':'added'}`);
+}
+function duplicateVariant(){addVariant(true);}
+function removeVariant(){
+  if(state.variants.length<2)return toast('⚠️ Need at least one variant');
+  const i=state.activeVariant;
+  if(!confirm(`Remove variant ${vLetter(i)}?`))return;
+  state.variants.splice(i,1);
+  Object.keys(state.assigned).forEach(e=>{const a=state.assigned[e];if(a===i)delete state.assigned[e];else if(a>i)state.assigned[e]=a-1;});
+  selectVariant(Math.min(i,state.variants.length-1));renderTable();toast('🗑 Variant removed');
+}
+function setRotation(){state.rotation=document.getElementById('rotationMode').value;save();updatePreview();renderTable();}
+
+function updatePreview(){
+  const si=parseInt(document.getElementById('recipientSelector').value);
+  let idx=state.recipients[si]?si:state.recipients.findIndex(r=>!state.sentEmails.includes(r.email));
+  if(idx===-1)idx=0;
+  const r=state.recipients[idx];
+  if(!r){document.getElementById('previewBox').textContent='No data.';return;}
+  const vi=variantFor(idx),v=state.variants[vi??state.activeVariant];
+  const label=state.variants.length<2?'':(vi==null?`Content: random on open (previewing ${vLetter(state.activeVariant)})\n`:`Content: ${vLetter(vi)}\n`);
+  document.getElementById('previewBox').textContent=`${label}To: ${r.email}\nSubject: ${rep(v.s,r)}\n\n${rep(v.b,r)}`;
+}
+function updateSelector(){
+  const sel=document.getElementById('recipientSelector');
+  sel.innerHTML='<option value="-1">-- Select --</option>';
+  state.recipients.forEach((r,i)=>{const o=document.createElement('option');o.value=i;o.textContent=`${r.email} | ${r.store_name}`;sel.appendChild(o);});
+  if(state.recipients.length){const f=state.recipients.findIndex(r=>!state.sentEmails.includes(r.email));sel.value=f!==-1?f:0;}
+}
+function updateTemplates(){
+  const sel=document.getElementById('templateSelect');sel.innerHTML='<option value="">-- Saved --</option>';
+  Object.keys(state.templates).forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;sel.appendChild(o);});
+}
+function saveTemplate(){const n=prompt('Template name:');if(!n)return;state.templates[n]={...activeV()};save();updateTemplates();document.getElementById('templateSelect').value=n;toast('💾 Saved');}
+function loadTemplate(){const n=document.getElementById('templateSelect').value;if(!n||!state.templates[n])return;const v=activeV();v.s=state.templates[n].s;v.b=state.templates[n].b;fillEditor();debounced();renderTable();toast(`📂 Loaded into ${vLetter(state.activeVariant)}`);}
+function deleteTemplate(){const n=document.getElementById('templateSelect').value;if(!n||!state.templates[n])return toast('Select a template');if(!confirm(`Delete "${n}"?`))return;delete state.templates[n];save();updateTemplates();document.getElementById('templateSelect').value='';toast('🗑 Deleted');}
+function copyPreview(){navigator.clipboard.writeText(document.getElementById('previewBox').textContent).then(()=>toast('📋 Copied')).catch(()=>toast('❌ Copy failed'));}
+
+// CAMPAIGN
+function toggleMode(){
+  state.mode=document.querySelector('input[name="sendMode"]:checked').value;save();
+  document.getElementById('autoControls').style.display=state.mode==='auto'?'block':'none';
+  document.getElementById('sendBtn').textContent=state.mode==='auto'?'🚀 Start':'🔄 Reset';
+  document.getElementById('sendBtn').onclick=state.mode==='auto'?startCampaign:()=>{state.queueIndex=0;stopCampaign();toast('Reset');};
+  stopCampaign();
+}
+function startCampaign(){
+  if(!state.recipients.length)return toast('Add recipients first');
+  if(state.recipients.filter(r=>!state.sentEmails.includes(r.email)).length===0)return toast('All recipients contacted!');
+  isRunning=true;isPaused=false;
+  document.getElementById('sendBtn').disabled=true;
+  document.getElementById('pauseBtn').disabled=false;
+  document.getElementById('stopBtn').disabled=false;
+  sessionStats={sent:0,skipped:0};
+  processNext();scheduleNext();toast('🚀 Campaign started');
+}
+function scheduleNext(){
+  if(!isRunning||isPaused)return;
+  timerId=setTimeout(()=>{if(isRunning&&!isPaused){processNext();scheduleNext();}},( state.delay||2)*1000);
+}
+function processNext(){
+  if(state.queueIndex>=state.recipients.length){stopCampaign();toast('🏁 All done!');return;}
+  const r=state.recipients[state.queueIndex];
+  if(state.sentEmails.includes(r.email)){sessionStats.skipped++;document.getElementById('skippedCount').textContent=sessionStats.skipped;state.queueIndex++;return;}
+  openDraft(state.queueIndex);
+  if(!state.sentEmails.includes(r.email))state.sentEmails.push(r.email);
+  sessionStats.sent++;document.getElementById('sentCount').textContent=sessionStats.sent;
+  state.queueIndex++;updateProgress();renderTable();updateStats();updateSelector();renderVariantBar();save();
+}
+function openDraft(idx,isTest){
+  const r=state.recipients[idx];
+  let vi=variantFor(idx);
+  if(vi==null){const pool=variantPool();vi=pool[Math.floor(Math.random()*pool.length)];}
+  // Remember which content this recipient got (test drafts don't count)
+  if(!isTest){state.assigned[r.email]=vi;save();renderTable();renderVariantBar();updatePreview();}
+  const v=state.variants[vi];
+  const subj=rep(v.s,r);
+  const body=rep(v.b,r);
+  const link=`mailto:${encodeURIComponent(r.email)}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body.replace(/\n/g,'\r\n'))}`;
+  try{const a=document.createElement('a');a.href=link;a.target='_blank';a.rel='noopener';document.body.appendChild(a);a.click();document.body.removeChild(a);}
+  catch(e){console.error('Mailto failed',e);toast('⚠️ Mail app blocked — check settings');}
+}
+function pauseCampaign(){isPaused=!isPaused;document.getElementById('pauseBtn').textContent=isPaused?'▶️ Resume':'⏸ Pause';if(!isPaused)scheduleNext();save();toast(isPaused?'⏸ Paused':'▶️ Resumed');}
+function stopCampaign(){isRunning=false;isPaused=false;clearTimeout(timerId);document.getElementById('sendBtn').disabled=false;document.getElementById('pauseBtn').disabled=true;document.getElementById('pauseBtn').textContent='⏸ Pause';document.getElementById('stopBtn').disabled=true;updateStats();save();}
+function updateProgress(){document.getElementById('progressFill').style.width=`${(state.queueIndex/state.recipients.length)*100}%`;}
+function openTestDraft(){const si=parseInt(document.getElementById('recipientSelector').value);if(si===-1||!state.recipients[si])return toast('Select a recipient first');openDraft(si,true);toast('🧪 Draft opened');}
+
+// EXPORT / IMPORT
+function exportState(){const d={...state,lastSaved:null};const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`tredex-${new Date().toISOString().slice(0,10)}.json`;a.click();toast('📤 Exported');}
+document.getElementById('importFile').addEventListener('change',function(e){
+  if(!e.target.files[0])return;const r=new FileReader();
+  r.onload=ev=>{try{const d=JSON.parse(ev.target.result);state={...state,...normalize(d)};save();load();toast('📥 Imported');}catch(err){toast('❌ Invalid file');}};
+  r.readAsText(e.target.files[0]);e.target.value='';
+});
+function updateStats(){
+  const t=state.recipients.length,a=state.recipients.filter(r=>state.sentEmails.includes(r.email)).length;
+  document.getElementById('totalCount').textContent=t;
+  document.getElementById('alreadySent').textContent=a;
+  document.getElementById('remainCount').textContent=Math.max(0,t-a);
+}
+
+// REVIEW EDITOR
+function openReview(data){const tb=document.getElementById('reviewTbody');tb.innerHTML='';data.forEach(r=>addReviewRow(r.email,r.store_url,r.store_name,r.store_niche));document.getElementById('reviewSection').classList.remove('hidden');document.getElementById('reviewSection').scrollIntoView({behavior:'smooth',block:'start'});}
+function addReviewRow(e='',u='',n='',ni=''){const tb=document.getElementById('reviewTbody'),idx=tb.children.length+1,tr=document.createElement('tr');tr.innerHTML=`<td>${idx}</td><td><input class="review-input" value="${e}" placeholder="email"></td><td><input class="review-input" value="${u}" placeholder="url"></td><td><input class="review-input" value="${n}" placeholder="name"></td><td><input class="review-input" value="${ni}" placeholder="niche"></td><td><button class="row-btn del" onclick="this.closest('tr').remove()">🗑</button></td>`;tb.appendChild(tr);}
+function clearReview(){if(confirm('Discard?'))document.getElementById('reviewSection').classList.add('hidden');}
+function confirmReview(){const rows=document.querySelectorAll('#reviewTbody tr'),parsed=[];rows.forEach(tr=>{const inp=tr.querySelectorAll('input');const[e,u,n,ni]=Array.from(inp).map(i=>i.value.trim());if(e&&e.includes('@'))parsed.push({email:e.toLowerCase(),store_url:u,store_name:n||'Merchant',store_niche:ni||'E-commerce'});});if(!parsed.length)return toast('⚠️ No valid emails');addRecipients(parsed);document.getElementById('reviewSection').classList.add('hidden');}
+
+// INIT
+function init(){load();filtered=state.recipients.map((_,i)=>i);renderVariantBar();updateTemplates();updatePreview();updateSelector();updateStats();renderTable();}
+init();
+</script>
+</body>
+</html>
